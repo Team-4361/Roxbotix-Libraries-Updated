@@ -19,4 +19,12 @@ public class Constant {
 	{
 		return Value;
 	}
+	
+	public static Constants GetConstants()
+	{
+		Constants cons = new Constants();
+		cons.LoadConstants();
+		
+		return cons;
+	}
 }

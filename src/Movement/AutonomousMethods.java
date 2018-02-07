@@ -47,9 +47,8 @@ public class AutonomousMethods
 	}
 	
 	//Autonomous Commands
-	private void goDistance(double dist, double speed)
+	public void goDistance(double dist, double speed)
 	{
-
 		double timeWarm = .5;
 		double timeNeeded = timeWarm + ((dist / circumference) / ((speed * 5310) / (60 * 12.75)));
 		
@@ -107,7 +106,7 @@ public class AutonomousMethods
 		}
 	}
 
-	private void turn(double angle, double speed)
+	public void turn(double angle, double speed)
 	{
 		if(isReversed) angle = -angle;
 		
@@ -117,7 +116,7 @@ public class AutonomousMethods
 			turnEncoder(angle, speed);
 	}
 	
-	private void turnEncoder(double angle, double speed)
+	public void turnEncoder(double angle, double speed)
 	{
 		double percent = Math.abs(angle)/360;
 		if(!hasRun)
@@ -149,7 +148,7 @@ public class AutonomousMethods
 		}
 	}
 
-	private void turnNavx(double angle, double MaxSpeed)
+	public void turnNavx(double angle, double MaxSpeed)
 	{
 		if(!hasRun)
 		{
@@ -187,7 +186,7 @@ public class AutonomousMethods
 		}
 	}
 	
-	private void wait(double time)
+	public void wait(double time)
 	{
 		if(!hasRun)
 		{
