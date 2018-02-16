@@ -15,8 +15,26 @@ public class JoystickTank
 	public double[] GetDrive()
 	{
 		double[] val = new double[2];
-		val[0] = left.getY();
+		val[0] = -left.getY();
 		val[1] = right.getY();
+		
+		return val;
+	}
+	
+	public double[] GetPerfectStraight()
+	{
+		double[] val = new double[2];
+		val[0] = -right.getY();
+		val[1] = right.getY();
+		
+		return val;
+	}
+	
+	public double[] GetPerfectTurn()
+	{
+		double[] val = new double[2];
+		val[0] = right.getX();
+		val[1] = right.getX();
 		
 		return val;
 	}

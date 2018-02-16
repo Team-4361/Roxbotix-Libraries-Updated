@@ -4,19 +4,21 @@ import java.util.ArrayList;
 
 public class Constants extends ArrayList<Constant>
 {
-	private static final String PathFile = "/Constants.file";
+	private static final String PathFile = "/home/lvuser/Constants.txt";
 	
 	public void LoadConstants()
 	{
 		this.clear();
 		
 		FileReader ConstFile;
+		
 		try
 		{
 			ConstFile = new FileReader(PathFile);
 		}
 		catch (FileNotFoundException ee)
 		{
+			System.out.println("File not found.");
 			return;
 		}
 		
@@ -27,16 +29,24 @@ public class Constants extends ArrayList<Constant>
 			String line;
 			while((line = Reader.readLine()) != null)
 			{
-				String[] temp = line.split("=");
-				Constant TempConst = new Constant(temp[0], temp[1]);
-				this.add(TempConst);
+				if(!line.equals("") && !line.contains("///"))
+				{
+					String[] temp = line.split("=");
+					Constant TempConst = new Constant(temp[0], temp[1]);
+
+					System.out.println("Loaded " + TempConst.getName() + " : " + TempConst.getValue());
+					this.add(TempConst);
+				}
+				else
+					System.out.println(line);
 			} 
 
 			Reader.close();
 		}
 		catch (Exception ee)
 		{
-			
+			System.out.println("Problem reading file.");
+			ee.printStackTrace();
 		}
 	}
 	
