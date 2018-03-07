@@ -10,7 +10,7 @@ public class Change
 		
 		if(currentState && value)
 		{
-			state =  true;
+			state = true;
 		}
 		else
 		{
@@ -18,12 +18,12 @@ public class Change
 		}
 		
 		
-		if(!currentState && value)
+		if(currentState && value)
 		{
 			currentState = false;
 		}
 		
-		if(currentState && !value)
+		if(!currentState && !value)
 		{
 			currentState = true;
 		}

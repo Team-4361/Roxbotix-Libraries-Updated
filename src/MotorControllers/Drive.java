@@ -29,6 +29,13 @@ public class Drive
 		}
 	}
 	
+	public double GetSpeed()
+	{
+		if(CAN != null && CAN[0] != null)
+			return CAN[0].get();
+		return 0;
+	}
+	
 	public static void SetFullCAN(WPI_TalonSRX[] CAN)
 	{
 		FullCAN = CAN;
