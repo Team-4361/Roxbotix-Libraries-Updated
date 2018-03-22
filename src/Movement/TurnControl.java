@@ -11,9 +11,9 @@ import Util.*;
 public class TurnControl implements PIDOutput
 {
 	
-	double rotateToAngleRate;
-	AHRS navx;
-	PIDController turnController;
+	private double rotateToAngleRate;
+	private AHRS navx;
+	private PIDController turnController;
 	
 	static double kP = 0.00;
 	static double kI = 0.00;
@@ -47,12 +47,33 @@ public class TurnControl implements PIDOutput
 		turnController.setOutputRange(-1.0, 1.0);
 		turnController.setAbsoluteTolerance(kToleranceDegrees);
 		turnController.setContinuous(true);
+		Enable();
+	}
+	
+	public void ResetNavx()
+	{
+		navx.reset();
 	}
 	
 	public void SetAngle(double value)
 	{
-		navx.reset();
+		ResetNavx();
 		turnController.setSetpoint(value * 1f);
+	}
+	
+	public double GetAngle()
+	{
+		return navx.getAngle();
+	}
+	
+	public AHRS GetNavx()
+	{
+		return navx;
+	}
+	
+	public PIDController GetPIDController()
+	{
+		return turnController;
 	}
 	
 	public void SetSpeed(double speed)
@@ -69,7 +90,17 @@ public class TurnControl implements PIDOutput
 	{
 		return turnController.onTarget();
 	}
-
+	
+	public void Enable()
+	{
+		turnController.enable();
+	}
+	
+	public void Disable()
+	{
+		turnController.disable();
+	}
+	
 	public void pidWrite(double output)
 	{
 		rotateToAngleRate = output;

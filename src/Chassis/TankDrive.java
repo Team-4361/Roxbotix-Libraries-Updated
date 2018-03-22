@@ -14,8 +14,8 @@ public class TankDrive implements Chassis
 	
 	public void Forward(double value)
 	{
-		Left.drive(-value);
-		Right.drive(value);
+		Left.drive(value);
+		Right.drive(-value);
 	}
 	
 	public void Turn(double value)

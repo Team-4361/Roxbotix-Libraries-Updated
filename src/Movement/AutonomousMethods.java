@@ -4,6 +4,7 @@ import Util.*;
 import Chassis.*;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Encoder;
 
 
@@ -22,7 +23,7 @@ public class AutonomousMethods
 	boolean isEnc = false;
 	public boolean isReversed = false, isNavx = true;
 	
-	TurnControl turnControl;
+	public TurnControl turnControl;
 	
 	public AutonomousMethods(Counter RunNum, double circumference, boolean isNavx, Chassis chassis)
 	{
@@ -33,8 +34,13 @@ public class AutonomousMethods
 		
 		this.chassis = chassis;
 		
+		this.isNavx = isNavx;
+		
 		if(isNavx)
+		{
 			turnControl = new TurnControl();
+			turnControl.GetNavx().reset();
+		}
 	}
 	
 	public AutonomousMethods(Counter RunNum, double circumference, boolean isNavx, Chassis chassis, Encoder lEnc, Encoder rEnc)
@@ -67,7 +73,25 @@ public class AutonomousMethods
 				hasRun = true;
 			}
 			
-			double large = Math.max(Math.abs(lEnc.getDistance()), Math.abs(rEnc.getDistance()));
+			double large = Math.max(Math.abs(lEnc.getDistance()), Math.abs(rEnc.getDistance())) / 256;
+			
+			double Tolerance = 0;
+			double SpeedChange = .1 * speed ;
+			
+			
+			if(Math.abs(lEnc.getDistance()) - Tolerance > Math.abs(rEnc.getDistance()))
+				if(Math.abs(speed + SpeedChange) > 1)
+					chassis.drive(speed, -(speed+SpeedChange));
+				else
+					chassis.drive(speed-SpeedChange, -(speed));
+			else if(Math.abs(lEnc.getDistance()) < Math.abs(rEnc.getDistance()) - Tolerance)
+				if(Math.abs(speed + SpeedChange) > 1)
+					chassis.drive(speed+SpeedChange, -(speed));
+				else
+					chassis.drive(speed, -(speed-SpeedChange));
+			else
+				chassis.Forward(speed);
+			
 			
 			if(large * circumference > dist || timer.get() - 7 > timeNeeded)
 			{
@@ -137,7 +161,7 @@ public class AutonomousMethods
 		else if(!hasRun&&angle==0)
 			hasRun=true;
 		
-		double large = Math.max(Math.abs(lEnc.getDistance()), Math.abs(rEnc.getDistance()));
+		double large = Math.max(Math.abs(lEnc.get()), Math.abs(rEnc.get())) * 255;
 		
 		if(large*circumference >= (19.5*Math.PI)*percent)
 		{
@@ -193,7 +217,7 @@ public class AutonomousMethods
 			timer.start();
 			hasRun = true;
 		}
-		if(timer.get()== time && hasRun)
+		if(timer.get() >= time && hasRun)
 		{
 			timer.stop();
 			timer.reset();

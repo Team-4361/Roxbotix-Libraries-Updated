@@ -13,7 +13,7 @@ public class PneumaticsControl
 	public PneumaticsControl(int comp)
 	{
 		this.comp = new Compressor(comp);
-		SmartDashboard.putBoolean("PneumaticControl", false);
+		SmartDashboard.putBoolean("PneumaticControl", SmartDashboard.getBoolean("PneumaticControl", false));
 	}
 	
 	public PneumaticsControl(int comp, int PressSensor, double Offset)

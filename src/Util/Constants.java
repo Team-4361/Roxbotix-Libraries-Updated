@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Constants extends ArrayList<Constant>
 {
 	private static final String PathFile = "/home/lvuser/Constants.txt";
+	public boolean Loaded = false;
 	
 	public void LoadConstants()
 	{
@@ -40,8 +41,9 @@ public class Constants extends ArrayList<Constant>
 				else
 					System.out.println(line);
 			} 
-
+			
 			Reader.close();
+			Loaded = true;
 		}
 		catch (Exception ee)
 		{

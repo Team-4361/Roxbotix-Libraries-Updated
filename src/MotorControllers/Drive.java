@@ -40,4 +40,9 @@ public class Drive
 	{
 		FullCAN = CAN;
 	}
+	
+	public WPI_TalonSRX[] GetTalons()
+	{
+		return CAN;
+	}
 }
