@@ -76,19 +76,13 @@ public class AutonomousMethods
 			double large = Math.max(Math.abs(lEnc.getDistance()), Math.abs(rEnc.getDistance())) / 256;
 			
 			double Tolerance = 0;
-			double SpeedChange = .1 * speed ;
+			double SpeedChange = .1 * speed;
 			
 			
 			if(Math.abs(lEnc.getDistance()) - Tolerance > Math.abs(rEnc.getDistance()))
-				if(Math.abs(speed + SpeedChange) > 1)
-					chassis.drive(speed, -(speed+SpeedChange));
-				else
-					chassis.drive(speed-SpeedChange, -(speed));
+				chassis.drive(speed - SpeedChange, -speed);
 			else if(Math.abs(lEnc.getDistance()) < Math.abs(rEnc.getDistance()) - Tolerance)
-				if(Math.abs(speed + SpeedChange) > 1)
-					chassis.drive(speed+SpeedChange, -(speed));
-				else
-					chassis.drive(speed, -(speed-SpeedChange));
+				chassis.drive(speed, -(speed - SpeedChange));
 			else
 				chassis.Forward(speed);
 			
@@ -177,7 +171,7 @@ public class AutonomousMethods
 		if(!hasRun)
 		{
 			turnControl.SetSpeed(MaxSpeed);
-			turnControl.SetAngle(angle);
+			turnControl.SetFromPosition(angle);
 
 			hasRun = true;
 		}

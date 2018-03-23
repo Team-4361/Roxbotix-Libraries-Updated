@@ -55,9 +55,14 @@ public class TurnControl implements PIDOutput
 		navx.reset();
 	}
 	
-	public void SetAngle(double value)
+	public void SetFromPosition(double value)
 	{
 		ResetNavx();
+		SetAngle(value);
+	}
+	
+	public void SetAngle(double value)
+	{
 		turnController.setSetpoint(value * 1f);
 	}
 	
