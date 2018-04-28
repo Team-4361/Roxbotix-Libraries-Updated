@@ -1,0 +1,33 @@
+package Autonomous.Actions;
+
+import Chassis.*;
+
+public class ActionEncoderDistance implements Action
+{
+	double distance, speed;
+	Chassis chassis = ActionObjects.chassis;
+	public ActionEncoderDistance(double distance, double speed)
+	{
+		this.distance = distance;
+		this.speed = speed;
+		
+		chassis.ResetEncoders();
+	}
+	
+	public void Run()
+	{
+		chassis.Straight(speed);
+	}
+	
+	public boolean IsFinished()
+	{
+		if(chassis.GetDistance() > distance)
+		{
+			chassis.Stop();
+			
+			return true;
+		}
+		
+		return false;
+	}
+}

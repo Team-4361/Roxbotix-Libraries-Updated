@@ -1,7 +1,8 @@
-package Movement;
+package Autonomous;
 
 import Util.*;
 import Chassis.*;
+import Controllers.TurnControl;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -13,7 +14,7 @@ public class AutonomousMethods
 	//Autonomous Variables
 	Counter RunNum;
 	boolean hasRun;
-	double circumference;
+	double circumference, robotWidth;
 	Timer timer;
 	
 	//Controls
@@ -63,6 +64,8 @@ public class AutonomousMethods
 			chassis.Forward(speed);
 			timer.start();
 		}
+
+		chassis.Straight(speed);
 		
 		if(isEnc)
 		{
@@ -75,17 +78,7 @@ public class AutonomousMethods
 			
 			double large = Math.max(Math.abs(lEnc.getDistance()), Math.abs(rEnc.getDistance())) / 256;
 			
-			double Tolerance = 0;
-			double SpeedChange = .1 * speed;
-			
-			
-			if(Math.abs(lEnc.getDistance()) - Tolerance > Math.abs(rEnc.getDistance()))
-				chassis.drive(speed - SpeedChange, -speed);
-			else if(Math.abs(lEnc.getDistance()) < Math.abs(rEnc.getDistance()) - Tolerance)
-				chassis.drive(speed, -(speed - SpeedChange));
-			else
-				chassis.Forward(speed);
-			
+			chassis.Straight(speed);
 			
 			if(large * circumference > dist || timer.get() - 7 > timeNeeded)
 			{

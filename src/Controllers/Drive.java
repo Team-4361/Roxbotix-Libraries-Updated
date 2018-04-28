@@ -1,4 +1,4 @@
-package MotorControllers;
+package Controllers;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class Drive

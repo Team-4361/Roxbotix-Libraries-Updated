@@ -1,5 +1,5 @@
 package Chassis;
-import MotorControllers.*;
+import Controllers.Drive;
 
 public class HDrive extends TankDrive
 {

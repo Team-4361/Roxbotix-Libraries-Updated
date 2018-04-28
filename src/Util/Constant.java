@@ -4,6 +4,7 @@ public class Constant {
 	
 	public static Constants AllConstant;
 	
+	
 	private String Name;
 	private String Value;
 	
