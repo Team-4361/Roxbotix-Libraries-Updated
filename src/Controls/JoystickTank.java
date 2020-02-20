@@ -52,7 +52,7 @@ public class JoystickTank
 	public double[] GetPerfectTurn()
 	{
 		double[] val = new double[2];
-		val[0] = -right.getX();
+		val[0] = right.getX();
 		val[1] = right.getX();
 		
 		return val;
