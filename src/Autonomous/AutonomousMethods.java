@@ -1,8 +1,8 @@
-package Autonomous;
+package frc.libraries.Autonomous;
 
-import Util.*;
-import Chassis.*;
-import Controllers.TurnControl;
+import frc.libraries.Util.*;
+import frc.libraries.Chassis.*;
+import frc.libraries.Controllers.*;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,15 +18,14 @@ public class AutonomousMethods
 	Timer timer;
 	
 	//Controls
-	Encoder lEnc, rEnc;
 	Chassis chassis;
 	
 	boolean isEnc = false;
 	public boolean isReversed = false, isNavx = true;
 	
-	public TurnControl turnControl;
+	public TurnControl turnControl;	
 	
-	public AutonomousMethods(Counter RunNum, double circumference, boolean isNavx, Chassis chassis)
+	public AutonomousMethods(Counter RunNum,  double circumference,  boolean isNavx,  Chassis chassis)
 	{
 		this.RunNum = RunNum;
 		hasRun = false;
@@ -42,21 +41,17 @@ public class AutonomousMethods
 			turnControl = new TurnControl();
 			turnControl.GetNavx().reset();
 		}
-	}
-	
-	public AutonomousMethods(Counter RunNum, double circumference, boolean isNavx, Chassis chassis, Encoder lEnc, Encoder rEnc)
-	{
-		this(RunNum, circumference, isNavx, chassis);
 		
-		this.lEnc = lEnc;
-		this.rEnc = rEnc;
-		isEnc = true;
+		if(chassis.HasEncoder())
+		{
+			isEnc = true;
+		}
 	}
 	
 	//Autonomous Commands
-	public void goDistance(double dist, double speed)
+	public void goDistance(double dist,  double speed)
 	{
-		double timeWarm = .5;
+		 double timeWarm = .5;
 		double timeNeeded = timeWarm + ((dist / circumference) / ((speed * 5310) / (60 * 12.75)));
 		
 		if(!hasRun)
@@ -71,12 +66,11 @@ public class AutonomousMethods
 		{
 			if(!hasRun)
 			{
-				lEnc.reset();
-				rEnc.reset();
+				chassis.ResetEncoders();
 				hasRun = true;
 			}
 			
-			double large = Math.max(Math.abs(lEnc.getDistance()), Math.abs(rEnc.getDistance())) / 256;
+			 double large = chassis.GetDistance();
 			
 			chassis.Straight(speed);
 			
@@ -95,7 +89,7 @@ public class AutonomousMethods
 		//For when the encoders break
 		else if(!isEnc)
 		{
-			int dist2 = 0;
+			 int dist2 = 0;
 			
 			if(!hasRun)
 			{
@@ -117,7 +111,7 @@ public class AutonomousMethods
 		}
 	}
 
-	public void turn(double angle, double speed)
+	public void turn(double angle,  double speed)
 	{
 		if(isReversed) angle = -angle;
 		
@@ -127,13 +121,12 @@ public class AutonomousMethods
 			turnEncoder(angle, speed);
 	}
 	
-	public void turnEncoder(double angle, double speed)
+	public void turnEncoder( double angle,  double speed)
 	{
-		double percent = Math.abs(angle)/360;
+		 double percent = Math.abs(angle)/360;
 		if(!hasRun)
 		{
-			lEnc.reset();
-			rEnc.reset();
+			chassis.ResetEncoders();
 		}
 		if(!hasRun&&angle<0)
 		{
@@ -148,18 +141,21 @@ public class AutonomousMethods
 		else if(!hasRun&&angle==0)
 			hasRun=true;
 		
-		double large = Math.max(Math.abs(lEnc.get()), Math.abs(rEnc.get())) * 255;
+			//TODO
+		//double large = Math.max(Math.abs(lEnc.get()), Math.abs(rEnc.get())) * 255;
 		
+		/*
 		if(large*circumference >= (19.5*Math.PI)*percent)
 		{
 			chassis.Stop();
 			
 			hasRun = false;
-			RunNum.Add();
+			RunNum++;
 		}
+		*/
 	}
 
-	public void turnNavx(double angle, double MaxSpeed)
+	public void turnNavx( double angle,  double MaxSpeed)
 	{
 		if(!hasRun)
 		{
@@ -169,7 +165,7 @@ public class AutonomousMethods
 			hasRun = true;
 		}
 	  
-		double RotateRate = turnControl.GetRotateRate();
+		 double RotateRate = turnControl.GetRotateRate();
 		chassis.Turn(RotateRate);
 		
 		if(turnControl.onTarget())
@@ -197,7 +193,7 @@ public class AutonomousMethods
 		}
 	}
 	
-	public void wait(double time)
+	public void wait( double time)
 	{
 		if(!hasRun)
 		{
@@ -212,5 +208,6 @@ public class AutonomousMethods
 			RunNum.Add();
 		}
 	}
+	
 	
 }

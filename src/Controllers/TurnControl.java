@@ -1,14 +1,13 @@
-package Controllers;
+package frc.libraries.Controllers;
 
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.SPI;
-import Util.*;
+import frc.libraries.Util.*;
 
-public class TurnControl implements PIDOutput
+public class TurnControl //implements PIDOutput
 {
 	
 	private double rotateToAngleRate;
@@ -20,6 +19,7 @@ public class TurnControl implements PIDOutput
 	static double kD = 0.00;
 	static double kF = 0.00;
 	static double kToleranceDegrees = 0;
+	static double kSpeed = 0;
 	
 	public TurnControl()
 	{
@@ -42,12 +42,11 @@ public class TurnControl implements PIDOutput
 			DriverStation.reportError("Error instantiating navX-MXP:  " + ex.getMessage(), true);
 		}
 		
-		turnController = new PIDController(kP, kI, kD, kF, navx, this);
-		turnController.setInputRange(-180.0f,  180.0f);
-		turnController.setOutputRange(-1.0, 1.0);
-		turnController.setAbsoluteTolerance(kToleranceDegrees);
-		turnController.setContinuous(true);
-		Enable();
+		turnController = new PIDController(kP, kI, kD);
+		//turnController.setInputRange(-180.0f,  180.0f);
+		//turnController.setOutputRange(-1.0, 1.0);
+		turnController.setTolerance(kToleranceDegrees);
+		//Enable();
 	}
 	
 	public void ResetNavx()
@@ -83,19 +82,20 @@ public class TurnControl implements PIDOutput
 	
 	public void SetSpeed(double speed)
 	{
-		turnController.setOutputRange(-speed, speed);
+		this.kSpeed = speed;
 	}
 	
 	public double GetRotateRate()
 	{
-		return rotateToAngleRate;
+		return kSpeed*(turnController.calculate(navx.getAngle()));
 	}
 	
 	public boolean onTarget()
 	{
-		return turnController.onTarget();
+		return turnController.atSetpoint();
 	}
 	
+	/*
 	public void Enable()
 	{
 		turnController.enable();
@@ -105,9 +105,12 @@ public class TurnControl implements PIDOutput
 	{
 		turnController.disable();
 	}
-	
+
 	public void pidWrite(double output)
 	{
 		rotateToAngleRate = output;
 	}
+	*/
+
+	
 }

@@ -1,4 +1,4 @@
-package Controls;
+package frc.libraries.Controls;
 
 import edu.wpi.first.wpilibj.Joystick;
 

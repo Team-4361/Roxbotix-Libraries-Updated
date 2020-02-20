@@ -1,8 +1,8 @@
-package Autonomous.Actions;
+package frc.libraries.Autonomous.Actions;
 
-import Chassis.*;
+import frc.libraries.Chassis.*;
 
-public class ActionEncoderDistance implements Action
+public class ActionEncoderDistance implements ActionBase
 {
 	double distance, speed;
 	Chassis chassis = ActionObjects.chassis;
@@ -10,7 +10,10 @@ public class ActionEncoderDistance implements Action
 	{
 		this.distance = distance;
 		this.speed = speed;
-		
+	}
+
+	public void Init()
+	{
 		chassis.ResetEncoders();
 	}
 	
@@ -19,15 +22,12 @@ public class ActionEncoderDistance implements Action
 		chassis.Straight(speed);
 	}
 	
-	public boolean IsFinished()
+	public boolean FinishCondition()
 	{
-		if(chassis.GetDistance() > distance)
-		{
-			chassis.Stop();
-			
-			return true;
-		}
-		
-		return false;
+		return chassis.GetDistance() > distance;
+	}
+	public void Finish()
+	{
+		chassis.Stop();
 	}
 }

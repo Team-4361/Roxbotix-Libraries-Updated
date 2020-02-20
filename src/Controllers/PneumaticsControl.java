@@ -1,4 +1,4 @@
-package Controllers;
+package frc.libraries.Controllers;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.AnalogInput;
