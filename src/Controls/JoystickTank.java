@@ -1,4 +1,4 @@
-package frc.libraries.Controls;
+package frc.Library.Controls;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -20,6 +20,15 @@ public class JoystickTank
 		
 		return val;
 	}
+
+	public double[] GetDriveSpeed(double div)
+	{
+		double[] val = new double[2];
+		val[0] = -(left.getY()*div);
+		val[1] = (right.getY()*div);
+		
+		return val;
+	}
 	
 	public double[] GetPerfectStraight()
 	{
@@ -33,7 +42,7 @@ public class JoystickTank
 	public double[] GetPerfectTurn()
 	{
 		double[] val = new double[2];
-		val[0] = right.getX();
+		val[0] = -right.getX();
 		val[1] = right.getX();
 		
 		return val;
